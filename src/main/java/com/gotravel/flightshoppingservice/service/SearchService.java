@@ -11,7 +11,6 @@ import com.gotravel.flightshoppingservice.repository.FlightScheduleRepository;
 import com.gotravel.flightshoppingservice.util.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ public class SearchService {
     @Autowired
     private FlightScheduleRepository flightScheduleRepository;
 
-    @Cacheable(value = "searchResultCache", keyGenerator = "searchCacheKeyGenerator")
     public SearchResponse getSearchResponse(final SearchRequest searchRequest) throws ValueNotFoundException,
             InvalidRequestException {
         preValidate(searchRequest);
@@ -33,11 +31,11 @@ public class SearchService {
         List<FlightSchedule> flightScheduleList;
         List<FlightSchedule> returnFlightScheduleList = new ArrayList<>();
 
-        flightScheduleList = flightScheduleRepository.getFlightDetails(
+        flightScheduleList = flightScheduleRepository.getFlightScheduleList(
                 searchRequest.getDepartureAirport(), searchRequest.getArrivalAirport(),
                 DateUtil.convertToDay(searchRequest.getDepartureDate()));
         if (searchRequest.getTripType().equals(TripType.RT)) {
-            returnFlightScheduleList = flightScheduleRepository.getFlightDetails(
+            returnFlightScheduleList = flightScheduleRepository.getFlightScheduleList(
                     searchRequest.getArrivalAirport(), searchRequest.getDepartureAirport(),
                     DateUtil.convertToDay(searchRequest.getReturnDate()));
         }
@@ -62,6 +60,9 @@ public class SearchService {
         }
         if (Objects.isNull(searchRequest.getTripType())) {
             throw new InvalidRequestException("Missing Trip Type");
+        }
+        if (searchRequest.getTripType().equals(TripType.RT) && Objects.isNull(searchRequest.getReturnDate())) {
+            throw new InvalidRequestException("Missing Return Date");
         }
     }
 
