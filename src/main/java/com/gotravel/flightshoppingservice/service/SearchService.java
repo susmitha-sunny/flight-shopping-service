@@ -8,11 +8,12 @@ import com.gotravel.flightshoppingservice.model.SearchRequest;
 import com.gotravel.flightshoppingservice.model.SearchResponse;
 import com.gotravel.flightshoppingservice.model.TripType;
 import com.gotravel.flightshoppingservice.repository.FlightScheduleRepository;
+import com.gotravel.flightshoppingservice.util.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +25,7 @@ public class SearchService {
     @Autowired
     private FlightScheduleRepository flightScheduleRepository;
 
+    @Cacheable(value = "searchResultCache", keyGenerator = "searchCacheKeyGenerator")
     public SearchResponse getSearchResponse(final SearchRequest searchRequest) throws ValueNotFoundException,
             InvalidRequestException {
         preValidate(searchRequest);
@@ -33,11 +35,11 @@ public class SearchService {
 
         flightScheduleList = flightScheduleRepository.getFlightDetails(
                 searchRequest.getDepartureAirport(), searchRequest.getArrivalAirport(),
-                convertToDay(searchRequest.getDepartureDate()));
+                DateUtil.convertToDay(searchRequest.getDepartureDate()));
         if (searchRequest.getTripType().equals(TripType.RT)) {
             returnFlightScheduleList = flightScheduleRepository.getFlightDetails(
                     searchRequest.getArrivalAirport(), searchRequest.getDepartureAirport(),
-                    convertToDay(searchRequest.getReturnDate()));
+                    DateUtil.convertToDay(searchRequest.getReturnDate()));
         }
 
         postValidate(flightScheduleList, searchRequest.getTripType(), returnFlightScheduleList);
@@ -98,9 +100,5 @@ public class SearchService {
     searchResponse.setChildCount(searchRequest.getChildCount());
     searchResponse.setInfantCount(searchRequest.getInfantCount());
     return searchResponse;
-    }
-
-    private int convertToDay(final LocalDate date) {
-        return date.getDayOfWeek().getValue();
     }
 }
