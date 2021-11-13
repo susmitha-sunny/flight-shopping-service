@@ -12,6 +12,7 @@ public class SearchRequest {
     private String arrivalAirport;
     private LocalDate departureDate;
     private LocalDate returnDate;
+    private TripType tripType;
     private int adultCount;
     private int childCount;
     private int infantCount;
