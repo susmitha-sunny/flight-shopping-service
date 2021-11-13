@@ -17,7 +17,7 @@ import java.sql.Blob;
 public class Airline {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "airline_id")
     private int airlineId;
 

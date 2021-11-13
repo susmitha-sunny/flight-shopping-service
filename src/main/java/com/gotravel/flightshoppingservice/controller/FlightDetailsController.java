@@ -1,5 +1,7 @@
 package com.gotravel.flightshoppingservice.controller;
 
+import com.gotravel.flightshoppingservice.exception.InvalidRequestException;
+import com.gotravel.flightshoppingservice.exception.ValueNotFoundException;
 import com.gotravel.flightshoppingservice.model.FlightDetailsRequest;
 import com.gotravel.flightshoppingservice.model.FlightDetailsResponse;
 import com.gotravel.flightshoppingservice.service.FlightDetailsService;
@@ -16,7 +18,7 @@ public class FlightDetailsController {
     private FlightDetailsService flightDetailsService;
 
     @GetMapping(value = "/flight-shopping-service/flightdetails")
-    public FlightDetailsResponse execute(@RequestBody final FlightDetailsRequest flightDetailsRequest) throws Exception {
+    public FlightDetailsResponse execute(@RequestBody final FlightDetailsRequest flightDetailsRequest) throws ValueNotFoundException, InvalidRequestException {
         return flightDetailsService.getFlightDetails(flightDetailsRequest);
     }
 
