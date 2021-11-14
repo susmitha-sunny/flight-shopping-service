@@ -17,7 +17,7 @@ public class FlightDetailsController {
     @Autowired
     private FlightDetailsService flightDetailsService;
 
-    @GetMapping(value = "/flight-shopping-service/flightdetails")
+    @GetMapping(value = "/flightdetails")
     public FlightDetailsResponse execute(@RequestBody final FlightDetailsRequest flightDetailsRequest) throws ValueNotFoundException, InvalidRequestException {
         return flightDetailsService.getFlightDetails(flightDetailsRequest);
     }
