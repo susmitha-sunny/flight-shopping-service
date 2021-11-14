@@ -17,7 +17,7 @@ public class SearchController {
     @Autowired
     private SearchService searchService;
 
-    @GetMapping(value = "/flight-shopping-service/search")
+    @GetMapping(value = "/search")
     public SearchResponse execute(@RequestBody final SearchRequest searchRequest) throws ValueNotFoundException,
             InvalidRequestException {
         return searchService.getSearchResponse(searchRequest);
