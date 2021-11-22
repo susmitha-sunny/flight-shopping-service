@@ -27,8 +27,8 @@ public class Airline {
     @Column(name = "iata_code")
     private String iataCode;
 
-    @Lob
-    private Blob logo;
+//    @Lob
+//    private Blob logo;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "airline_status")
