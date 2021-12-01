@@ -21,23 +21,23 @@ public class FlightDetailsController {
     @CrossOrigin
     @GetMapping(value = "/flightdetails")
     public FlightDetailsResponse execute(
-            @RequestParam(value="scheduleId") final int scheduleId,
-            @RequestParam(value="returnScheduleId", required = false) final int returnScheduleId,
-            @RequestParam(value="departureDate") final String departureDate,
-            @RequestParam(value="returnDate", required = false) final String returnDate,
-            @RequestParam(value="tripType") final String tripType,
-            @RequestParam(value="adultCount") final int adultCount,
-            @RequestParam(value="childCount", required = false) final int childCount,
-            @RequestParam(value="infantCount", required = false) final int infantCount) throws ValueNotFoundException, InvalidRequestException {
+            @RequestParam(value = "scheduleId") final int scheduleId,
+            @RequestParam(value = "returnScheduleId", required = false) final int returnScheduleId,
+            @RequestParam(value = "departureDate") final String departureDate,
+            @RequestParam(value = "returnDate", required = false) final String returnDate,
+            @RequestParam(value = "tripType") final String tripType,
+            @RequestParam(value = "adultCount") final int adultCount,
+            @RequestParam(value = "childCount", required = false) final int childCount,
+            @RequestParam(value = "infantCount", required = false) final int infantCount) throws ValueNotFoundException, InvalidRequestException {
         FlightDetailsRequest request = new FlightDetailsRequest();
         request.setScheduleId(scheduleId);
         request.setReturnScheduleId(returnScheduleId);
-        if(departureDate == null || departureDate.equals("null")) {
+        if (departureDate == null || departureDate.equals("null")) {
             request.setDepartureDate(null);
         } else {
             request.setDepartureDate(LocalDate.parse(departureDate));
         }
-        if(returnDate == null || returnDate.equals("null")) {
+        if (returnDate == null || returnDate.equals("null")) {
             request.setReturnDate(null);
         } else {
             request.setReturnDate(LocalDate.parse(returnDate));
