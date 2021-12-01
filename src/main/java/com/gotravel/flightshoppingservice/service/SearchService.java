@@ -3,10 +3,7 @@ package com.gotravel.flightshoppingservice.service;
 import com.gotravel.flightshoppingservice.entity.FlightSchedule;
 import com.gotravel.flightshoppingservice.exception.InvalidRequestException;
 import com.gotravel.flightshoppingservice.exception.ValueNotFoundException;
-import com.gotravel.flightshoppingservice.model.AirlineStatusType;
-import com.gotravel.flightshoppingservice.model.SearchRequest;
-import com.gotravel.flightshoppingservice.model.SearchResponse;
-import com.gotravel.flightshoppingservice.model.TripType;
+import com.gotravel.flightshoppingservice.model.*;
 import com.gotravel.flightshoppingservice.repository.FlightScheduleRepository;
 import com.gotravel.flightshoppingservice.util.DateUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -101,5 +98,12 @@ public class SearchService {
     searchResponse.setChildCount(searchRequest.getChildCount());
     searchResponse.setInfantCount(searchRequest.getInfantCount());
     return searchResponse;
+    }
+
+    public AirportResponse getAirportResponse() {
+        AirportResponse airportResponse = new AirportResponse();
+        airportResponse.setDepartureAirportList(flightScheduleRepository.getDepartureAirportList());
+        airportResponse.setArrivalAirportList(flightScheduleRepository.getArrivalAirportList());
+        return airportResponse;
     }
 }

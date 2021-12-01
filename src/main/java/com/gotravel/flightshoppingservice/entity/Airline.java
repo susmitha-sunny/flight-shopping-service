@@ -5,7 +5,6 @@ import com.gotravel.flightshoppingservice.model.AirlineStatusType;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Blob;
 
 @Entity
 @Getter
